@@ -17,6 +17,29 @@ client.commands.add({
   type: "messageCreate",
   code: "`$pingms`",
 })
+
+client.commands.add(
+  {
+    type: "messageCreate",
+    name: "chess",
+    code: "$let[id;$default[$message[0];$randomNumber[1;10]]] $chess[$get[id]; $sendMessage[$channelID;$get[id] $codeblock[$displayChess[;Ascii]]]]",
+  },
+
+  {
+    type: "messageCreate",
+    name: "data",
+    disableConsoleErrors: true,
+    code: "$let[id;$message[0]] $attachment[$chessGameData[$get[id]];data.json;true]",
+  },
+
+  {
+    type: "messageCreate",
+    name: "play",
+    disableConsoleErrors: true,
+    code: "$let[id;$message[0]] $if[$argCount>1;$chessMove[$get[id];$message[1]]] `$chessMoves[$get[id];, ;true]` $codeblock[$displayChess[$get[id]]]",
+  }
+)
+
 client.commands.add({
   name: "eval",
   type: "messageCreate",

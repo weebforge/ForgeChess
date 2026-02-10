@@ -1,1 +1,1 @@
-{"version":3,"file":"displayChessBoard.d.ts","sourceRoot":"","sources":["../../../src/functions/game/displayChessBoard.ts"],"names":[],"mappings":"AAAA,OAAO,EAAO,OAAO,EAAE,cAAc,EAAE,MAAM,uBAAuB,CAAA;AACpE,OAAO,EAAE,qBAAqB,EAAW,MAAM,eAAe,CAAA;;AAE9D,wBAiBE"}
+{"version":3,"file":"displayChessBoard.d.ts","sourceRoot":"","sources":["../../../src/functions/game/displayChessBoard.ts"],"names":[],"mappings":"AAAA,OAAO,EAAO,OAAO,EAAE,cAAc,EAAE,MAAM,uBAAuB,CAAA;AACpE,OAAO,EAAE,qBAAqB,EAAW,MAAM,eAAe,CAAA;;AAE9D,wBAkBE"}

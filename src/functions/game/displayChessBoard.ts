@@ -3,7 +3,7 @@ import { ChessBoardDisplayType, FCError } from "../../classes"
 
 export default new NativeFunction({
   name: "$displayChessBoard",
-    version: "1.0.0",
+  version: "1.0.0",
   aliases: ["$displayChess", "$chessBoard"],
   description: "Display chess board.",
   brackets: false,

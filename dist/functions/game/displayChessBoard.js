@@ -4,6 +4,7 @@ const forgescript_1 = require("@tryforge/forgescript");
 const classes_1 = require("../../classes");
 exports.default = new forgescript_1.NativeFunction({
     name: "$displayChessBoard",
+    version: "1.0.0",
     aliases: ["$displayChess", "$chessBoard"],
     description: "Display chess board.",
     brackets: false,
