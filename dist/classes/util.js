@@ -16,7 +16,7 @@ exports.BoardDisplay = {
                     output += "  ";
                     continue;
                 }
-                const piece = square.piece.type[0][square.piece.side.name == "white" ? "toUpperCase" : "toLowerCase"]();
+                const piece = (square.piece.notation || "P")[square.piece.side.name == "black" ? "toLowerCase" : "toUpperCase"]();
                 output += piece + " ";
             }
             output += "\n";

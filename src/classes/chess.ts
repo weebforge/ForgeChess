@@ -80,7 +80,7 @@ export class Chess {
     // SAN Move
     // =========================
     else {
-      notation = start.trim().replace(/[A-H]/, (m) => m.toLowerCase())
+      notation = start.trim().replace(/[A-H][1-8]/, (m) => m.toLowerCase())
     }
 
     if (!(notation in this.client.notatedMoves)) throw new Error(`Invalid move ${notation}`)
