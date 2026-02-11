@@ -7,10 +7,10 @@ export interface IChessOptions {
     };
 }
 export declare class Chess {
-    #private;
     id: string;
     client: import("chess").AlgebraicGameClient;
     options: IChessOptions;
+    lastPlayedMove: PlayedMove | null;
     constructor(id: string, options?: DeepPartial<IChessOptions>);
     get moveCount(): number;
     currentPlayer(): "white" | "black";

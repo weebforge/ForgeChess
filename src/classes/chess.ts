@@ -12,7 +12,7 @@ export class Chess {
   public client = chess.create({ PGN: true })
   public options: IChessOptions
 
-  #_undo: (() => void) | null = null
+  public lastPlayedMove: PlayedMove | null = null
   public constructor(
     public id: string,
     options: DeepPartial<IChessOptions> = {}
@@ -90,12 +90,12 @@ export class Chess {
     const move = this.client.move(notation)
 
     if (!move) throw new Error(`Invalid move: ${notation}`)
-    this.#_undo = move.undo
+    this.lastPlayedMove = move
     return move
   }
 
   public undoMove() {
-    return !this.#_undo ? false : (this.#_undo(), true)
+    return !this.lastPlayedMove ? false : (this.lastPlayedMove.undo(), (this.lastPlayedMove = null), true)
   }
 
   public toJSON() {

@@ -2,27 +2,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const forgescript_1 = require("@tryforge/forgescript");
 const classes_1 = require("../../classes");
-const game_1 = require("../../properties/game");
+const lastMove_1 = require("../../properties/lastMove");
 exports.default = new forgescript_1.NativeFunction({
-    name: "$chessGameData",
-    aliases: ["$chessGameProperty", "$getChessGame"],
-    description: "Get the data about chess game.",
+    name: "$lastPlayedMove",
+    aliases: ["$lastChessMove", "$getLastPlayedMove"],
+    description: "Get the data about the last played move",
     version: "1.0.0",
     brackets: false,
     unwrap: true,
     args: [
         forgescript_1.Arg.optionalString("id", "ID of the chess game"),
-        forgescript_1.Arg.optionalEnum(game_1.ChessGameProperty, "property", "The property to pull"),
-        forgescript_1.Arg.optionalString("sep", "The seperator to use incase of array"),
+        forgescript_1.Arg.optionalEnum(lastMove_1.LastMoveProperty, "property", "The property to pull"),
     ],
     output: [forgescript_1.ArgType.Json, forgescript_1.ArgType.Unknown],
-    async execute(ctx, [id, prop, sep]) {
+    async execute(ctx, [id, prop]) {
         const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent;
         if (!chess)
             return this.customError(classes_1.FCError.NoChess);
+        if (!chess.lastPlayedMove)
+            return this.success();
         if (!prop)
-            return this.successJSON(chess.toJSON());
-        return this.success(game_1.ChessGameProperties[prop](chess, sep ?? ", "));
+            return this.successJSON(chess.lastPlayedMove);
+        return this.success(lastMove_1.LastMoveProperties[prop](chess.lastPlayedMove));
     },
 });
-//# sourceMappingURL=chessGameData.js.map
+//# sourceMappingURL=lastPlayedMove.js.map
