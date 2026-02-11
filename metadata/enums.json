@@ -1,0 +1,1 @@
+{"ChessGameProperty":["id","isStalement","isCheckmate","isCheck","isRepetition","fen","moveCount","availableMoves","movesHistory","player","lastMove"],"ChessBoardDisplayType":["Ascii","FEN","Json"],"LastMoveProperty":["algebraic","castle","enPassant","source","destination","piece","player","capture","capturedPiece"]}
