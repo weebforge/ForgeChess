@@ -12,7 +12,7 @@ export default new NativeFunction({
     Arg.optionalString("id", "ID of the chess game"),
     Arg.optionalEnum(ChessBoardDisplayType, "type", "Board display type"),
   ],
-  output: ArgType.String,
+  output: [ArgType.String, ArgType.Json],
   async execute(ctx, [id, type]) {
     const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent
     if (!chess) return this.customError(FCError.NoChess)

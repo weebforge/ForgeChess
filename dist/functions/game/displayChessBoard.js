@@ -13,7 +13,7 @@ exports.default = new forgescript_1.NativeFunction({
         forgescript_1.Arg.optionalString("id", "ID of the chess game"),
         forgescript_1.Arg.optionalEnum(classes_1.ChessBoardDisplayType, "type", "Board display type"),
     ],
-    output: forgescript_1.ArgType.String,
+    output: [forgescript_1.ArgType.String, forgescript_1.ArgType.Json],
     async execute(ctx, [id, type]) {
         const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent;
         if (!chess)
