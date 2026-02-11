@@ -10,6 +10,7 @@ class Chess {
     id;
     client = chess_1.default.create({ PGN: true });
     options;
+    #_undo = null;
     constructor(id, options = {}) {
         this.id = id;
         this.options = {
@@ -63,7 +64,11 @@ class Chess {
         const move = this.client.move(notation);
         if (!move)
             throw new Error(`Invalid move: ${notation}`);
+        this.#_undo = move.undo;
         return move;
+    }
+    undoMove() {
+        return !this.#_undo ? false : (this.#_undo(), true);
     }
     toJSON() {
         return {

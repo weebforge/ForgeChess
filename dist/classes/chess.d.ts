@@ -7,6 +7,7 @@ export interface IChessOptions {
     };
 }
 export declare class Chess {
+    #private;
     id: string;
     client: import("chess").AlgebraicGameClient;
     options: IChessOptions;
@@ -17,6 +18,7 @@ export declare class Chess {
     display(displayType: ChessBoardDisplayType.Json): ChessBoard;
     display(displayType: Exclude<ChessBoardDisplayType, ChessBoardDisplayType.Json>): string;
     makeMove(notation: string): PlayedMove;
+    undoMove(): boolean;
     toJSON(): {
         id: string;
         options: IChessOptions;
