@@ -19,7 +19,7 @@ client.commands.add({
 client.commands.add({
     type: "messageCreate",
     name: "chess",
-    code: "$let[id;$default[$message[0];$randomNumber[1;10]]] $chess[$get[id]; $sendMessage[$channelID;$get[id] $codeblock[$displayChess[;Ascii]]]]",
+    code: "$let[id;$username] $chess[$get[id]; $sendMessage[$channelID;$get[id] $codeblock[$displayChess[;Ascii]]]]",
 }, {
     type: "messageCreate",
     name: "data",
@@ -29,7 +29,7 @@ client.commands.add({
     type: "messageCreate",
     name: "play",
     disableConsoleErrors: true,
-    code: "$let[id;$message[0]] $if[$argCount>1;$chessMove[$get[id];$message[1]]] `$chessMoves[$get[id];, ;true]` $codeblock[$displayChess[$get[id]]]",
+    code: "$let[id;$username] $if[$argCount>0;$chessMove[$get[id];$message]] `$chessMoves[$get[id];, ;true]` $codeblock[$displayChess[$get[id]]]",
 });
 client.commands.add({
     name: "eval",
