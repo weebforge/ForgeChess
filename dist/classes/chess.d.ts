@@ -7,6 +7,10 @@ export interface ChessEventCallback extends Record<"move" | "undo" | "castle" | 
     checkmate: (attack: AttackSquare) => unknown | Promise<unknown>;
 }
 export type ChessEvent = keyof ChessEventCallback;
+export declare enum ChessOptions {
+    FlipBoard = 0,
+    ShowCoordinates = 1
+}
 export interface IChessOptions {
     display: {
         flip: boolean;

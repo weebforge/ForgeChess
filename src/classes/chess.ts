@@ -12,6 +12,12 @@ export interface ChessEventCallback extends Record<
   checkmate: (attack: AttackSquare) => unknown | Promise<unknown>
 }
 export type ChessEvent = keyof ChessEventCallback
+
+/** For set option function */
+export enum ChessOptions {
+  FlipBoard,
+  ShowCoordinates,
+}
 export interface IChessOptions {
   display: {
     flip: boolean

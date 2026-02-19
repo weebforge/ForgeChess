@@ -3,11 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChessBoardDisplayType = exports.Chess = void 0;
+exports.ChessBoardDisplayType = exports.Chess = exports.ChessOptions = void 0;
 exports.isChessInstance = isChessInstance;
 const chess_1 = __importDefault(require("chess"));
 const util_1 = require("./util");
 const __1 = require("..");
+var ChessOptions;
+(function (ChessOptions) {
+    ChessOptions[ChessOptions["FlipBoard"] = 0] = "FlipBoard";
+    ChessOptions[ChessOptions["ShowCoordinates"] = 1] = "ShowCoordinates";
+})(ChessOptions || (exports.ChessOptions = ChessOptions = {}));
 class Chess {
     id;
     manager;
