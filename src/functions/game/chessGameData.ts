@@ -1,5 +1,5 @@
 import { Arg, ArgType, NativeFunction } from "@tryforge/forgescript"
-import { FCError } from "../../classes"
+import { FCError, isChessInstance } from "../../classes"
 import { ChessGameProperties, ChessGameProperty } from "../../properties/game"
 
 export default new NativeFunction({
@@ -16,8 +16,9 @@ export default new NativeFunction({
   ],
   output: [ArgType.Json, ArgType.Unknown],
   async execute(ctx, [id, prop, sep]) {
-    const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent
+    const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras)
     if (!chess) return this.customError(FCError.NoChess)
+    if (!isChessInstance(chess)) return this.customError(FCError.InvalidChess)
     if (!prop) return this.successJSON(chess.toJSON())
     return this.success(ChessGameProperties[prop](chess, sep ?? ", "))
   },

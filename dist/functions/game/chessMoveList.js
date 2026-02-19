@@ -20,9 +20,11 @@ exports.default = new forgescript_1.NativeFunction({
     ],
     output: (0, array_1.default)(),
     async execute(ctx, [id, sep, san]) {
-        const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent;
+        const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras);
         if (!chess)
             return this.customError(classes_1.FCError.NoChess);
+        if (!(0, classes_1.isChessInstance)(chess))
+            return this.customError(classes_1.FCError.InvalidChess);
         return this.success(chess.availableMoves(san ?? true).join(sep ?? ", "));
     },
 });

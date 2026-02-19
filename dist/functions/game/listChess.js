@@ -17,7 +17,7 @@ exports.default = new forgescript_1.NativeFunction({
     output: (0, array_1.default)(),
     async execute(ctx, [sep]) {
         if (!ctx.client.chessManager || !(ctx.client.chessManager instanceof classes_1.ChessManager))
-            ctx.client.chessManager = new classes_1.ChessManager();
+            ctx.client.chessManager = new classes_1.ChessManager(ctx.client);
         return this.success(ctx.client.chessManager
             .list()
             .map((x) => x.id)

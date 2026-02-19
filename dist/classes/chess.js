@@ -3,22 +3,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChessBoardDisplayType = exports.Chess = void 0;
+exports.ChessBoardDisplayType = exports.Chess = exports.ChessOptions = void 0;
+exports.isChessInstance = isChessInstance;
 const chess_1 = __importDefault(require("chess"));
 const util_1 = require("./util");
+const __1 = require("..");
+var ChessOptions;
+(function (ChessOptions) {
+    ChessOptions[ChessOptions["FlipBoard"] = 0] = "FlipBoard";
+    ChessOptions[ChessOptions["ShowCoordinates"] = 1] = "ShowCoordinates";
+})(ChessOptions || (exports.ChessOptions = ChessOptions = {}));
 class Chess {
     id;
+    manager;
     client = chess_1.default.create({ PGN: true });
     options;
     lastPlayedMove = null;
-    constructor(id, options = {}) {
+    constructor(id, options = {}, manager) {
         this.id = id;
+        this.manager = manager;
         this.options = {
             display: {
                 flip: options.display?.flip ?? true,
                 coords: options.display?.coords ?? true,
             },
         };
+        this.addListeners(manager.client.getExtension(__1.ForgeChess, true).options.events?.filter((e) => !["start"].includes(e)) ?? []);
+    }
+    addListeners(events) {
+        events.forEach((e) => this.on(e, (...args) => this.manager.client.getExtension(__1.ForgeChess, true).emitter.emit(e, this, ...args)));
+    }
+    on(event, callback) {
+        this.client.on(event, callback);
     }
     get moveCount() {
         return this.client.game.moveHistory?.length ?? 0;
@@ -92,4 +108,7 @@ var ChessBoardDisplayType;
     ChessBoardDisplayType["FEN"] = "fen";
     ChessBoardDisplayType["Json"] = "json";
 })(ChessBoardDisplayType || (exports.ChessBoardDisplayType = ChessBoardDisplayType = {}));
+function isChessInstance(v) {
+    return v && v instanceof Chess;
+}
 //# sourceMappingURL=chess.js.map

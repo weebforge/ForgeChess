@@ -3,9 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChessManager = void 0;
 const chess_1 = require("./chess");
 class ChessManager {
+    client;
     map = new Map();
     current = [];
-    constructor() { }
+    constructor(client) {
+        this.client = client;
+    }
     get lastCurrent() {
         return this.current[this.current.length - 1];
     }
@@ -17,7 +20,7 @@ class ChessManager {
     }
     set(chessOrId, opts) {
         return typeof chessOrId == "string"
-            ? this.map.set(chessOrId, new chess_1.Chess(chessOrId, opts ?? {}))
+            ? this.map.set(chessOrId, new chess_1.Chess(chessOrId, opts ?? {}, this))
             : this.map.set(chessOrId.id, chessOrId);
     }
     list() {

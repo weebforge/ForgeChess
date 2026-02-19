@@ -31,5 +31,6 @@ exports.BoardDisplay = {
 var FCError;
 (function (FCError) {
     FCError["NoChess"] = "No chess game found.";
+    FCError["InvalidChess"] = "This is not a chess game.";
 })(FCError || (exports.FCError = FCError = {}));
 //# sourceMappingURL=util.js.map

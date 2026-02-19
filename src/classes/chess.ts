@@ -1,7 +1,23 @@
-import chess, { ChessBoard, PlayedMove } from "chess"
+import chess, { ChessBoard, PlayedMove, Square } from "chess"
 import { BoardDisplay } from "./util"
-import { DeepPartial } from ".."
+import { ChessManager, DeepPartial, ForgeChess } from ".."
 
+export type AttackSquare = Record<"attackingSquare" | "kingSquare", Square>
+export interface ChessEventCallback extends Record<
+  "move" | "undo" | "castle" | "enPassant",
+  (move: PlayedMove) => unknown | Promise<unknown>
+> {
+  promote: (square: Square) => unknown | Promise<unknown>
+  check: (attack: AttackSquare) => unknown | Promise<unknown>
+  checkmate: (attack: AttackSquare) => unknown | Promise<unknown>
+}
+export type ChessEvent = keyof ChessEventCallback
+
+/** For set option function */
+export enum ChessOptions {
+  FlipBoard,
+  ShowCoordinates,
+}
 export interface IChessOptions {
   display: {
     flip: boolean
@@ -15,7 +31,8 @@ export class Chess {
   public lastPlayedMove: PlayedMove | null = null
   public constructor(
     public id: string,
-    options: DeepPartial<IChessOptions> = {}
+    options: DeepPartial<IChessOptions> = {},
+    public manager: ChessManager
   ) {
     this.options = {
       display: {
@@ -23,6 +40,22 @@ export class Chess {
         coords: options.display?.coords ?? true,
       },
     }
+    this.addListeners(
+      // @ts-ignore - someone help me
+      manager.client.getExtension(ForgeChess, true).options.events?.filter((e) => !["start"].includes(e)) ?? []
+    )
+  }
+  private addListeners(events: ChessEvent[]) {
+    events.forEach((e) =>
+      this.on(e, (...args: any[]) =>
+        this.manager.client.getExtension(ForgeChess, true).emitter.emit(e as any, this, ...args)
+      )
+    )
+  }
+
+  public on<T extends ChessEvent>(event: T, callback: ChessEventCallback[T]) {
+    // @ts-ignore
+    this.client.on(event, callback)
   }
 
   public get moveCount() {
@@ -118,4 +151,7 @@ export enum ChessBoardDisplayType {
   Ascii = "ascii",
   FEN = "fen",
   Json = "json",
+}
+export function isChessInstance(v: any): v is Chess {
+  return v && v instanceof Chess
 }

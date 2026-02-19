@@ -1,5 +1,5 @@
 import { Arg, ArgType, NativeFunction } from "@tryforge/forgescript"
-import { ChessBoardDisplayType, FCError } from "../../classes"
+import { ChessBoardDisplayType, FCError, isChessInstance } from "../../classes"
 
 export default new NativeFunction({
   name: "$displayChessBoard",
@@ -14,8 +14,9 @@ export default new NativeFunction({
   ],
   output: [ArgType.String, ArgType.Json],
   async execute(ctx, [id, type]) {
-    const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent
+    const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras)
     if (!chess) return this.customError(FCError.NoChess)
+    if (!isChessInstance(chess)) return this.customError(FCError.InvalidChess)
     if (type == ChessBoardDisplayType.Json) return this.successJSON(chess.display(type))
     return this.success(chess.display(type ?? ChessBoardDisplayType.Ascii))
   },
