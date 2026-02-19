@@ -17,12 +17,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ForgeChess = void 0;
 const forgescript_1 = require("@tryforge/forgescript");
 const path_1 = require("path");
+const tiny_typed_emitter_1 = require("tiny-typed-emitter");
+const commands_1 = require("./classes/commands");
 class ForgeChess extends forgescript_1.ForgeExtension {
+    options;
     name = "ForgeChess";
     description = require("../package.json").description;
     version = require("../package.json").version;
+    emitter = new tiny_typed_emitter_1.TypedEmitter();
+    client;
+    commands;
+    constructor(options) {
+        super();
+        this.options = options;
+    }
     init(client) {
+        this.client = client;
+        this.commands = new commands_1.ForgeChessCommandManager(client);
+        forgescript_1.EventManager.load(commands_1.ChessEventManagerName, __dirname + "/events");
         this.load((0, path_1.join)(__dirname, "functions"));
+        if (this.options.events?.length)
+            this.client.events.load(commands_1.ChessEventManagerName, this.options.events);
     }
 }
 exports.ForgeChess = ForgeChess;

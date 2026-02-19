@@ -4,13 +4,19 @@ import { ForgeChess } from ".."
 
 config()
 
+const chess = new ForgeChess({
+  events: ["start"],
+})
+
 const client = new ForgeClient({
   prefixes: ["!"],
   token: process.env.Token!,
   intents: ["MessageContent", "GuildMessages", "Guilds"],
   events: ["messageCreate", "clientReady"],
-  extensions: [new ForgeChess()],
+  extensions: [chess],
 })
+
+chess.commands.add({ type: "start", code: "$log[started game with id: $js[ctx.runtime.extras.id]]" })
 
 client.commands.add({
   name: "ping",

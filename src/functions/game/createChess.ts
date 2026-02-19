@@ -1,5 +1,6 @@
 import { Arg, NativeFunction } from "@tryforge/forgescript"
 import { Chess, ChessManager } from "../../classes"
+import { ForgeChess } from "../.."
 
 export default new NativeFunction({
   name: "$createChess",
@@ -27,6 +28,7 @@ export default new NativeFunction({
     if (!ctx.client.chessManager || ctx.client.chessManager.current.length === 0)
       return this.customError("Couldnt create the chess game.")
 
+    ctx.client.getExtension(ForgeChess, true).emitter.emit("start", ctx.client.chessManager.lastCurrent)
     ctx.client.chessManager.set(ctx.client.chessManager.lastCurrent)
     ctx.client.chessManager.current = ctx.client.chessManager.current.slice(
       0,

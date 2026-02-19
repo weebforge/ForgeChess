@@ -4,13 +4,17 @@ const forgescript_1 = require("@tryforge/forgescript");
 const dotenv_1 = require("dotenv");
 const __1 = require("..");
 (0, dotenv_1.config)();
+const chess = new __1.ForgeChess({
+    events: ["start"],
+});
 const client = new forgescript_1.ForgeClient({
     prefixes: ["!"],
     token: process.env.Token,
     intents: ["MessageContent", "GuildMessages", "Guilds"],
     events: ["messageCreate", "clientReady"],
-    extensions: [new __1.ForgeChess()],
+    extensions: [chess],
 });
+chess.commands.add({ type: "start", code: "$log[started game with id: $js[ctx.runtime.extras.id]]" });
 client.commands.add({
     name: "ping",
     type: "messageCreate",
