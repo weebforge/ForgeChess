@@ -119,3 +119,6 @@ export enum ChessBoardDisplayType {
   FEN = "fen",
   Json = "json",
 }
+export function isChessInstance(v: any): v is Chess {
+  return v && v instanceof Chess
+}

@@ -11,9 +11,11 @@ exports.default = new forgescript_1.NativeFunction({
     unwrap: true,
     args: [forgescript_1.Arg.optionalString("id", "ID of the chess game"), forgescript_1.Arg.restString("moves", "The moves to play")],
     async execute(ctx, [id, moves]) {
-        const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent;
+        const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras);
         if (!chess)
             return this.customError(classes_1.FCError.NoChess);
+        if (!(0, classes_1.isChessInstance)(chess))
+            return this.customError(classes_1.FCError.InvalidChess);
         for (const move of moves) {
             try {
                 chess.makeMove(move.replace(" ", ""));

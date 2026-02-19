@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChessBoardDisplayType = exports.Chess = void 0;
+exports.isChessInstance = isChessInstance;
 const chess_1 = __importDefault(require("chess"));
 const util_1 = require("./util");
 class Chess {
@@ -92,4 +93,7 @@ var ChessBoardDisplayType;
     ChessBoardDisplayType["FEN"] = "fen";
     ChessBoardDisplayType["Json"] = "json";
 })(ChessBoardDisplayType || (exports.ChessBoardDisplayType = ChessBoardDisplayType = {}));
+function isChessInstance(v) {
+    return v && v instanceof Chess;
+}
 //# sourceMappingURL=chess.js.map

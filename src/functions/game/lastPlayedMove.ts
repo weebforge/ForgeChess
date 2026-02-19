@@ -1,5 +1,5 @@
 import { Arg, ArgType, NativeFunction } from "@tryforge/forgescript"
-import { FCError } from "../../classes"
+import { FCError, isChessInstance } from "../../classes"
 import { LastMoveProperties, LastMoveProperty } from "../../properties/lastMove"
 
 export default new NativeFunction({
@@ -15,8 +15,9 @@ export default new NativeFunction({
   ],
   output: [ArgType.Json, ArgType.Unknown],
   async execute(ctx, [id, prop]) {
-    const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent
+    const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras)
     if (!chess) return this.customError(FCError.NoChess)
+    if (!isChessInstance(chess)) return this.customError(FCError.InvalidChess)
     if (!chess.lastPlayedMove) return this.success()
     if (!prop) return this.successJSON(chess.lastPlayedMove)
     return this.success(LastMoveProperties[prop](chess.lastPlayedMove))

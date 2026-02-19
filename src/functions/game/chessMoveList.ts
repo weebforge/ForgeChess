@@ -1,6 +1,6 @@
 import { Arg, ArgType, NativeFunction } from "@tryforge/forgescript"
 import array from "@tryforge/forgescript/dist/functions/array"
-import { FCError } from "../../classes"
+import { FCError, isChessInstance } from "../../classes"
 
 export default new NativeFunction({
   name: "$chessMoveList",
@@ -16,8 +16,9 @@ export default new NativeFunction({
   ],
   output: array<ArgType.String>(),
   async execute(ctx, [id, sep, san]) {
-    const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent
+    const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras)
     if (!chess) return this.customError(FCError.NoChess)
+    if (!isChessInstance(chess)) return this.customError(FCError.InvalidChess)
     return this.success(chess.availableMoves(san ?? true).join(sep ?? ", "))
   },
 })

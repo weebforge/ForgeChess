@@ -43,4 +43,5 @@ export const BoardDisplay = {
 
 export enum FCError {
   NoChess = "No chess game found.",
+  InvalidChess = "This is not a chess game.",
 }

@@ -37,4 +37,5 @@ export declare enum ChessBoardDisplayType {
     FEN = "fen",
     Json = "json"
 }
+export declare function isChessInstance(v: any): v is Chess;
 //# sourceMappingURL=chess.d.ts.map

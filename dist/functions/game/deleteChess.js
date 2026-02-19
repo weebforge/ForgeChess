@@ -7,16 +7,16 @@ exports.default = new forgescript_1.NativeFunction({
     aliases: ["$deleteClassGame"],
     description: "Deletes the chess game from the manager.",
     version: "1.0.0",
-    brackets: true,
+    brackets: false,
     unwrap: true,
-    args: [forgescript_1.Arg.requiredString("id", "ID of the chess game")],
+    args: [forgescript_1.Arg.optionalString("id", "ID of the chess game")],
     output: forgescript_1.ArgType.Boolean,
     async execute(ctx, [id]) {
-        if (!id)
-            return this.customError("No ID is provided.");
-        const chess = ctx.client.chessManager?.get(id);
+        const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras);
         if (!chess)
             return this.customError(classes_1.FCError.NoChess);
+        if (!(0, classes_1.isChessInstance)(chess))
+            return this.customError(classes_1.FCError.InvalidChess);
         ctx.client.chessManager?.remove(chess.id);
         return this.success(true);
     },

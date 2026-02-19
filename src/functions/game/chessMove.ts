@@ -1,5 +1,5 @@
 import { Arg, ArgType, NativeFunction } from "@tryforge/forgescript"
-import { FCError } from "../../classes"
+import { FCError, isChessInstance } from "../../classes"
 
 export default new NativeFunction({
   name: "$chessMove",
@@ -10,8 +10,9 @@ export default new NativeFunction({
   unwrap: true,
   args: [Arg.optionalString("id", "ID of the chess game"), Arg.restString("moves", "The moves to play")],
   async execute(ctx, [id, moves]) {
-    const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent
+    const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras)
     if (!chess) return this.customError(FCError.NoChess)
+    if (!isChessInstance(chess)) return this.customError(FCError.InvalidChess)
     for (const move of moves) {
       try {
         chess.makeMove(move.replace(" ", ""))

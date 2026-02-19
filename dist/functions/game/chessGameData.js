@@ -17,9 +17,11 @@ exports.default = new forgescript_1.NativeFunction({
     ],
     output: [forgescript_1.ArgType.Json, forgescript_1.ArgType.Unknown],
     async execute(ctx, [id, prop, sep]) {
-        const chess = id ? ctx.client.chessManager?.get(id) : ctx.client.chessManager?.lastCurrent;
+        const chess = id ? ctx.client.chessManager?.get(id) : (ctx.client.chessManager?.lastCurrent ?? ctx.runtime.extras);
         if (!chess)
             return this.customError(classes_1.FCError.NoChess);
+        if (!(0, classes_1.isChessInstance)(chess))
+            return this.customError(classes_1.FCError.InvalidChess);
         if (!prop)
             return this.successJSON(chess.toJSON());
         return this.success(game_1.ChessGameProperties[prop](chess, sep ?? ", "));
