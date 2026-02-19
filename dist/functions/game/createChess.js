@@ -19,8 +19,8 @@ exports.default = new forgescript_1.NativeFunction({
             return this.customError("No ID is provided.");
         if (this.data.fields.length >= 1) {
             if (!ctx.client.chessManager || !(ctx.client.chessManager instanceof classes_1.ChessManager))
-                ctx.client.chessManager = new classes_1.ChessManager();
-            ctx.client.chessManager.current.push(new classes_1.Chess(id));
+                ctx.client.chessManager = new classes_1.ChessManager(ctx.client);
+            ctx.client.chessManager.current.push(new classes_1.Chess(id, {}, ctx.client.chessManager));
         }
         for (let i = 1; i < this.data.fields.length; i++) {
             await this["resolveCode"](ctx, this.data.fields[i]);

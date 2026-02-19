@@ -13,7 +13,7 @@ export type DeepPartial<T> = {
     [P in keyof T]?: DeepPartial<T[P]> | undefined;
 };
 export declare class ForgeChess extends ForgeExtension {
-    private readonly options;
+    readonly options: IForgeChessOptions;
     name: string;
     description: string;
     version: string;

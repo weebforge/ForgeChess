@@ -7,19 +7,29 @@ exports.ChessBoardDisplayType = exports.Chess = void 0;
 exports.isChessInstance = isChessInstance;
 const chess_1 = __importDefault(require("chess"));
 const util_1 = require("./util");
+const __1 = require("..");
 class Chess {
     id;
+    manager;
     client = chess_1.default.create({ PGN: true });
     options;
     lastPlayedMove = null;
-    constructor(id, options = {}) {
+    constructor(id, options = {}, manager) {
         this.id = id;
+        this.manager = manager;
         this.options = {
             display: {
                 flip: options.display?.flip ?? true,
                 coords: options.display?.coords ?? true,
             },
         };
+        this.addListeners(manager.client.getExtension(__1.ForgeChess, true).options.events?.filter((e) => !["start"].includes(e)) ?? []);
+    }
+    addListeners(events) {
+        events.forEach((e) => this.on(e, (...args) => this.manager.client.getExtension(__1.ForgeChess, true).emitter.emit(e, this, ...args)));
+    }
+    on(event, callback) {
+        this.client.on(event, callback);
     }
     get moveCount() {
         return this.client.game.moveHistory?.length ?? 0;

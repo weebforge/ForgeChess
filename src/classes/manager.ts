@@ -1,10 +1,11 @@
+import { ForgeClient } from "@tryforge/forgescript"
 import { DeepPartial } from ".."
 import { Chess, IChessOptions } from "./chess"
 
 export class ChessManager {
   public map = new Map<string, Chess>()
   public current: Chess[] = []
-  public constructor() {}
+  public constructor(public client: ForgeClient) {}
 
   public get lastCurrent() {
     return this.current[this.current.length - 1]
@@ -21,7 +22,7 @@ export class ChessManager {
   set(id: string, opts?: DeepPartial<IChessOptions>): void
   public set(chessOrId: Chess | string, opts?: DeepPartial<IChessOptions>) {
     return typeof chessOrId == "string"
-      ? this.map.set(chessOrId, new Chess(chessOrId, opts ?? {}))
+      ? this.map.set(chessOrId, new Chess(chessOrId, opts ?? {}, this))
       : this.map.set(chessOrId.id, chessOrId)
   }
 

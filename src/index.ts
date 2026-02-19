@@ -23,7 +23,7 @@ export class ForgeChess extends ForgeExtension {
   private client!: ForgeClient
   public commands!: ForgeChessCommandManager
 
-  public constructor(private readonly options: IForgeChessOptions) {
+  public constructor(public readonly options: IForgeChessOptions) {
     super()
   }
 

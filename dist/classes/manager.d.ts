@@ -1,9 +1,11 @@
+import { ForgeClient } from "@tryforge/forgescript";
 import { DeepPartial } from "..";
 import { Chess, IChessOptions } from "./chess";
 export declare class ChessManager {
+    client: ForgeClient;
     map: Map<string, Chess>;
     current: Chess[];
-    constructor();
+    constructor(client: ForgeClient);
     get lastCurrent(): Chess;
     get(id: string): Chess | undefined;
     remove(id: string): void;

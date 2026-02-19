@@ -13,7 +13,7 @@ export default new NativeFunction({
   output: array<ArgType.String>(),
   async execute(ctx, [sep]) {
     if (!ctx.client.chessManager || !(ctx.client.chessManager instanceof ChessManager))
-      ctx.client.chessManager = new ChessManager()
+      ctx.client.chessManager = new ChessManager(ctx.client)
     return this.success(
       ctx.client.chessManager
         .list()

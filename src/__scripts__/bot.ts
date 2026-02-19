@@ -5,7 +5,7 @@ import { ForgeChess } from ".."
 config()
 
 const chess = new ForgeChess({
-  events: ["start"],
+  events: ["start", "move"],
 })
 
 const client = new ForgeClient({
@@ -17,6 +17,7 @@ const client = new ForgeClient({
 })
 
 chess.commands.add({ type: "start", code: "$log[started game with id: $js[ctx.runtime.extras.id]]" })
+chess.commands.add({ type: "move", code: "$log[Move played: $lastPlayedMove[;algebraic]]" })
 
 client.commands.add({
   name: "ping",

@@ -1,5 +1,12 @@
-import { ChessBoard, PlayedMove } from "chess";
-import { DeepPartial } from "..";
+import { ChessBoard, PlayedMove, Square } from "chess";
+import { ChessManager, DeepPartial } from "..";
+export type AttackSquare = Record<"attackingSquare" | "kingSquare", Square>;
+export interface ChessEventCallback extends Record<"move" | "undo" | "castle" | "enPassant", (move: PlayedMove) => unknown | Promise<unknown>> {
+    promote: (square: Square) => unknown | Promise<unknown>;
+    check: (attack: AttackSquare) => unknown | Promise<unknown>;
+    checkmate: (attack: AttackSquare) => unknown | Promise<unknown>;
+}
+export type ChessEvent = keyof ChessEventCallback;
 export interface IChessOptions {
     display: {
         flip: boolean;
@@ -8,10 +15,13 @@ export interface IChessOptions {
 }
 export declare class Chess {
     id: string;
+    manager: ChessManager;
     client: import("chess").AlgebraicGameClient;
     options: IChessOptions;
     lastPlayedMove: PlayedMove | null;
-    constructor(id: string, options?: DeepPartial<IChessOptions>);
+    constructor(id: string, options: DeepPartial<IChessOptions> | undefined, manager: ChessManager);
+    private addListeners;
+    on<T extends ChessEvent>(event: T, callback: ChessEventCallback[T]): void;
     get moveCount(): number;
     currentPlayer(): "white" | "black";
     availableMoves(san?: boolean): string[];

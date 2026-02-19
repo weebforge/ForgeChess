@@ -5,7 +5,7 @@ const dotenv_1 = require("dotenv");
 const __1 = require("..");
 (0, dotenv_1.config)();
 const chess = new __1.ForgeChess({
-    events: ["start"],
+    events: ["start", "move"],
 });
 const client = new forgescript_1.ForgeClient({
     prefixes: ["!"],
@@ -15,6 +15,7 @@ const client = new forgescript_1.ForgeClient({
     extensions: [chess],
 });
 chess.commands.add({ type: "start", code: "$log[started game with id: $js[ctx.runtime.extras.id]]" });
+chess.commands.add({ type: "move", code: "$log[Move played: $lastPlayedMove[;algebraic]]" });
 client.commands.add({
     name: "ping",
     type: "messageCreate",

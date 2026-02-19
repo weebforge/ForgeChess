@@ -18,8 +18,8 @@ export default new NativeFunction({
 
     if (this.data.fields.length >= 1) {
       if (!ctx.client.chessManager || !(ctx.client.chessManager instanceof ChessManager))
-        ctx.client.chessManager = new ChessManager()
-      ctx.client.chessManager.current.push(new Chess(id))
+        ctx.client.chessManager = new ChessManager(ctx.client)
+      ctx.client.chessManager.current.push(new Chess(id, {}, ctx.client.chessManager!))
     }
 
     for (let i = 1; i < this.data.fields.length; i++) {
