@@ -33,6 +33,7 @@ export declare class Chess {
     display(displayType: Exclude<ChessBoardDisplayType, ChessBoardDisplayType.Json>): string;
     makeMove(notation: string): PlayedMove;
     undoMove(): boolean;
+    get FEN(): string;
     toJSON(): {
         id: string;
         options: IChessOptions;

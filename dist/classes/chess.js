@@ -58,7 +58,7 @@ class Chess {
         else if (displayType == ChessBoardDisplayType.Ascii)
             return util_1.BoardDisplay.Ascii(board, this.options.display.flip ? this.currentPlayer() == "white" : true, this.options.display.coords);
         else if (displayType == ChessBoardDisplayType.FEN)
-            return this.client.getFen();
+            return this.FEN;
         throw new Error("Invalid board display type.");
     }
     makeMove(start, end) {
@@ -86,6 +86,9 @@ class Chess {
     undoMove() {
         return !this.lastPlayedMove ? false : (this.lastPlayedMove.undo(), (this.lastPlayedMove = null), true);
     }
+    get FEN() {
+        return (0, util_1.generateFEN)(this);
+    }
     toJSON() {
         return {
             id: this.id,
@@ -97,7 +100,7 @@ class Chess {
                 history: this.client.game.moveHistory ?? [],
             },
             status: this.client.getStatus(),
-            fen: this.client.getFen(),
+            fen: this.FEN,
         };
     }
 }
