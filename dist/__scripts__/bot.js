@@ -34,7 +34,7 @@ client.commands.add({
     type: "messageCreate",
     name: "play",
     disableConsoleErrors: true,
-    code: "$let[id;$username] $if[$argCount>0;$chessMove[$get[id];$message]] `$chessMoves[$get[id];, ;true]` $codeblock[$displayChess[$get[id]]]",
+    code: "$let[id;$username] $if[$argCount>0;$chessMove[$get[id];$message]] `$chessMoves[$get[id];, ;true]` $codeblock[$displayChess[$get[id]]]$codeblock[$displayChess[$get[id];FEN];ts]",
 });
 client.commands.add({
     name: "eval",

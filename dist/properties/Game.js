@@ -22,7 +22,7 @@ exports.ChessGameProperties = (0, forgescript_1.defineProperties)({
     isCheckmate: (g) => g?.client.isCheckMate,
     isCheck: (g) => g?.client.isCheck,
     isRepetition: (g) => g?.client.isRepetition,
-    fen: (g) => g?.client.getFen(),
+    fen: (g) => g?.FEN,
     moveCount: (g) => g?.moveCount,
     availableMoves: (g, sep) => g?.availableMoves(true).join(sep ?? ", "),
     movesHistory: (g, sep) => g?.client.game.moveHistory.map((v) => v.algebraic).join(sep ?? ", "),

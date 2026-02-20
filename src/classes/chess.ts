@@ -1,5 +1,5 @@
 import chess, { ChessBoard, PlayedMove, Square } from "chess"
-import { BoardDisplay } from "./util"
+import { BoardDisplay, generateFEN } from "./util"
 import { ChessManager, DeepPartial, ForgeChess } from ".."
 
 export type AttackSquare = Record<"attackingSquare" | "kingSquare", Square>
@@ -86,7 +86,7 @@ export class Chess {
         this.options.display.flip ? this.currentPlayer() == "white" : true,
         this.options.display.coords
       )
-    else if (displayType == ChessBoardDisplayType.FEN) return this.client.getFen()
+    else if (displayType == ChessBoardDisplayType.FEN) return this.FEN
     throw new Error("Invalid board display type.")
   }
 
@@ -131,6 +131,10 @@ export class Chess {
     return !this.lastPlayedMove ? false : (this.lastPlayedMove.undo(), (this.lastPlayedMove = null), true)
   }
 
+  public get FEN() {
+    return generateFEN(this)
+  }
+
   public toJSON() {
     return {
       id: this.id,
@@ -142,7 +146,7 @@ export class Chess {
         history: this.client.game.moveHistory ?? [],
       },
       status: this.client.getStatus(),
-      fen: this.client.getFen(),
+      fen: this.FEN,
     }
   }
 }
